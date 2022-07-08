@@ -48,8 +48,30 @@ insert into film ("name", date_film, description, genre) values
 ('Джуманджи: Зов джунглей','07-08-2017','Четверо подростков оказываются внутри игры «Джуманджи». Их ждет схватка с носорогами, черными мамбами','приключения/комедия'),
 ('Последний богатырь','21-07-2017','Иван, обычный парень, по воле случая переносится из современной Москвы в фантастическую страну Белогорье.','фэнтези/комедия');
 
+alter table film drop column genre;
+create sequence genere_id;
+create table genre
+(
+id int not null default nextval('genere_id') primary key,
+neme varchar
+);
+alter table film add column genre int default null references genre(id); 
+
+ insert into genre (neme) values
+ ('комедия'),
+ ('комедия/драма'),
+ ('боевик'),
+ ('приключения/комедия'),
+ ('фэнтези/комедия');
+
+ update film set genre=(select id from genre where neme ='комедия' limit 1 ) where name = 'Холоп';
+ update film set genre=(select id from genre where neme ='комедия/драма' limit 1 ) where name = 'Гудбай, Америка';
+ update film set genre=(select id from genre where neme ='боевик' limit 1 ) where name = 'Плохие парни навсегда';
+ update film set genre=(select id from genre where neme ='приключения/комедия' limit 1 ) where name = 'Джуманджи: Зов джунглей';
+ update film set genre=(select id from genre where neme ='фэнтези/комедия' limit 1 ) where name = 'Последний богатырь';
+ 
 insert into users (last_name, first_name, email, phone) values
---('Сережа','Бубликов','byblikov@gmail.com', 9765435),
+('Сережа','Бубликов','byblikov@gmail.com', 9765435),
 ('Катя','Машина','mashina@gmail.com', 97897665),
 ('Ольга','Зубкова','zybkova@gmail.com', 919543215),
 ('Анатолий','Брусников','brusnikov@gmail.com', 97653337),
